@@ -1,0 +1,66 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: resumex-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql://resumex_user:resumex_pass@postgres:5432/resumex_db
+      - REDIS_URL=redis://redis:6379/0
+      - STORAGE_PROVIDER=local
+      - SECRET_KEY=resumex-production-secret-jwt-key-2026
+    volumes:
+      - storage_data:/app/storage_uploads
+      - reports_data:/app/reports_generated
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: resumex-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: resumex-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=resumex_user
+      - POSTGRES_PASSWORD=resumex_pass
+      - POSTGRES_DB=resumex_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resumex_user -d resumex_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: resumex-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  storage_data:
+  reports_data:
