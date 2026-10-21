@@ -1,7 +1,7 @@
 import uuid
 import json
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
@@ -13,6 +13,22 @@ from app.services.report_service import generate_pdf_report
 from app.api.auth_routes import get_current_user_optional
 
 router = APIRouter(prefix="/reports", tags=["Reports"])
+
+@router.get("", response_model=List[ReportResponse])
+def list_reports(db: Session = Depends(get_db)):
+    reports = db.query(Report).order_by(Report.created_at.desc()).limit(50).all()
+    results = []
+    for r in reports:
+        results.append({
+            "id": r.id,
+            "analysis_id": r.analysis_id,
+            "share_token": r.share_token,
+            "pdf_filename": r.pdf_filename,
+            "download_url": f"/api/reports/download/{r.pdf_filename}",
+            "share_url": f"/reports/view/{r.share_token}",
+            "created_at": r.created_at
+        })
+    return results
 
 @router.post("/generate/{analysis_id}", response_model=ReportResponse)
 def create_report(
