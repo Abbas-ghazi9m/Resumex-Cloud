@@ -172,3 +172,95 @@ export interface CloudEventItem {
   metadata?: Record<string, any>;
   created_at: string;
 }
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  preferred_role?: string;
+  experience_level?: string;
+  avatar?: string;
+}
+
+export interface ReportItem {
+  id: string;
+  analysis_id: string;
+  share_token: string;
+  pdf_filename: string;
+  download_url: string;
+  share_url: string;
+  created_at: string;
+}
+
+export interface ResumeExperienceItem {
+  id: string;
+  company: string;
+  role: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  current: boolean;
+  bullets: string[];
+}
+
+export interface ResumeEducationItem {
+  id: string;
+  school: string;
+  degree: string;
+  field: string;
+  graduationYear: string;
+  gpa?: string;
+}
+
+export interface ResumeProjectItem {
+  id: string;
+  name: string;
+  tech: string;
+  description: string;
+  bullets: string[];
+  link?: string;
+}
+
+export interface ResumeCertificationItem {
+  id: string;
+  name: string;
+  issuer: string;
+  date: string;
+}
+
+export interface ResumeData {
+  personal: {
+    fullName: string;
+    title: string;
+    email: string;
+    phone: string;
+    location: string;
+    website: string;
+    linkedin: string;
+    github: string;
+  };
+  summary: string;
+  experience: ResumeExperienceItem[];
+  education: ResumeEducationItem[];
+  skills: {
+    languages: string[];
+    frameworks: string[];
+    databases: string[];
+    cloudDevOps: string[];
+    tools: string[];
+  };
+  projects: ResumeProjectItem[];
+  certifications: ResumeCertificationItem[];
+}
+
+export interface CorrectionIssue {
+  id: string;
+  type: "weak_verb" | "missing_metric" | "tech_casing" | "filler_phrase" | "passive_voice";
+  originalText: string;
+  suggestedText: string;
+  category: string;
+  explanation: string;
+  impact: "High" | "Medium" | "Low";
+}
+

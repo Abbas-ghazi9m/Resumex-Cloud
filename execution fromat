@@ -1,0 +1,12 @@
+Terminal-1:-
+cd c:\users\.gemini\antigravity-ide\scratch\resumex-cloud
+.\venv\Scripts\Activate.ps1
+cd backend 
+uvicorn app.main:app --reload
+
+----------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------
+Terminal-2:-
+cd c:\users\.gemini\antigravity-ide\scratch\resumex-cloud
+cd frontend
+npm run dev

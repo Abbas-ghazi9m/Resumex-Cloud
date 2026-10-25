@@ -1,110 +1,77 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --bg-base: #060911;
-    --bg-surface: #0c111d;
-    --bg-card: #111827;
-    --bg-hover: #1e293b;
-    --border-subtle: #1e293b;
-    --border-glow: #0284c7;
-    --text-primary: #f8fafc;
-    --text-muted: #94a3b8;
-    --cyan-accent: #00d2ff;
-    --cyan-glow: rgba(0, 210, 255, 0.15);
-    --emerald-accent: #10b981;
-    --amber-accent: #f59e0b;
-    --rose-accent: #f43f5e;
-  }
+:root {
+  --bg-app: #FAF9F6;
+  --surface: #FFFFFF;
+  --surface-subtle: #F5F4EF;
+  --surface-hover: #F0EEE7;
+  --text-primary: #20211F;
+  --text-secondary: #777872;
+  --text-muted: #9E9F99;
+  --border-color: #E8E6E0;
+  --border-focus: #52664F;
+  --accent: #52664F;
+  --accent-hover: #41523F;
+  --accent-subtle: #EDF1EC;
+  --accent-text: #2D3A2B;
+  --danger: #B9382F;
+  --danger-subtle: #FDF2F1;
+  --warning: #B46C1E;
+  --warning-subtle: #FEF7EE;
+  --success: #3F704D;
+  --success-subtle: #F0F6F2;
 }
 
 body {
-  background-color: var(--bg-base);
+  background-color: var(--bg-app);
   color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
-/* Monospace microcopy elements */
-.font-mono-tech {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  letter-spacing: 0.05em;
-}
-
-/* Subtle cloud grid background */
-.cloud-grid {
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-/* Radar scanner beam animation */
-@keyframes radar-sweep {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.radar-spinner {
-  animation: radar-sweep 8s linear infinite;
-}
-
-/* Cyber pulse animation */
-@keyframes cyber-pulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.02); }
-}
-
-.animate-cyber-pulse {
-  animation: cyber-pulse 4s ease-in-out infinite;
-}
-
-/* Scanner line animation */
-@keyframes scanline {
-  0% { top: 0%; opacity: 0.8; }
-  50% { opacity: 0.3; }
-  100% { top: 100%; opacity: 0.8; }
-}
-
-.scanline-effect {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #00d2ff, transparent);
-  box-shadow: 0 0 10px #00d2ff;
-  animation: scanline 2.5s ease-in-out infinite;
-}
-
-/* Glassmorphism card */
-.glass-panel {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-panel-glow {
-  background: rgba(17, 24, 39, 0.8);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(0, 210, 255, 0.25);
-  box-shadow: 0 0 25px rgba(0, 210, 255, 0.08);
-}
-
-/* Custom scrollbars */
+/* Restrained, minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 3px;
+  background: #D9D7CE;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #BFBCB2;
+}
+
+/* Monospace microcopy */
+.font-mono-tech {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  letter-spacing: 0.02em;
+}
+
+/* Subtle print styles for clean ATS resume printing */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
 }

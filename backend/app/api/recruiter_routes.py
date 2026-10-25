@@ -149,3 +149,22 @@ async def add_candidate_resume(
         "top_matched_skills": processed["top_matched_skills"],
         "critical_missing_skills": processed["critical_missing_skills"]
     }
+
+@router.delete("/jobs/{job_id}")
+def delete_recruiter_job(job_id: str, db: Session = Depends(get_db)):
+    j = db.query(RecruiterJob).filter(RecruiterJob.id == job_id).first()
+    if not j:
+        raise HTTPException(status_code=404, detail="Recruiter job not found")
+    db.delete(j)
+    db.commit()
+    return {"status": "DELETED", "message": f"Recruiter job {job_id} deleted."}
+
+@router.delete("/candidates/{candidate_id}")
+def delete_recruiter_candidate(candidate_id: str, db: Session = Depends(get_db)):
+    c = db.query(RecruiterCandidate).filter(RecruiterCandidate.id == candidate_id).first()
+    if not c:
+        raise HTTPException(status_code=404, detail="Candidate not found")
+    db.delete(c)
+    db.commit()
+    return {"status": "DELETED", "message": f"Candidate {candidate_id} removed."}
+
